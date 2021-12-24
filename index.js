@@ -135,6 +135,7 @@ const getSpeedData = async (testNum = 1) => {
 
           // Extract Lab metrics
           const testUrl = res.value.lighthouseResult.finalUrl;
+          const PerformanceScore = res.value.lighthouseResult.categories.performance.score || 'no data';
           const TTFB = labAudit['server-response-time'].numericValue;
           const TTI =
             labAudit.metrics.details?.items[0].interactive ?? 'no data';
@@ -161,6 +162,7 @@ const getSpeedData = async (testNum = 1) => {
           // Construct object
           const finalObj = {
             testUrl,
+            PerformanceScore,
             TTFB,
             labFCP,
             labLCP,
@@ -246,6 +248,7 @@ const getSpeedData = async (testNum = 1) => {
         // Create object witht the same properties but calculating the median value per url
         const objMedian = {
           testUrl: cur.testUrl,
+          PerformanceScore: median(sameUrl.map(({ PerformanceScore }) => PerformanceScore)),
           TTFB: median(sameUrl.map(({ TTFB }) => TTFB)),
           labFCP: median(sameUrl.map(({ labFCP }) => labFCP)),
           labLCP: median(sameUrl.map(({ labLCP }) => labLCP)),
