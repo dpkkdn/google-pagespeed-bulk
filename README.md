@@ -49,6 +49,7 @@ Once the script has finished, you will find the output under the "results" folde
 
 These files will contain the lab metrics for each succesful test result from the URLs in your 'urls.csv' file. The metrics extarcted are:
 
+- Performance Score
 - Time To First Byte in milisenconds (TTFB)
 - First Contentful Paint in miliseconds (labFCP)
 - Largest Contentful Paint in miliseconds (labLCP)
