@@ -47,6 +47,10 @@ Once the script has finished, you will find the output under the "results" folde
 - results-test.csv
 - results-test.json
 
+If keepOldFiles = true, it will create the files in 
+
+results-test-[device]-[YYYY-MM-DD--HH-mm].csv format. Eg "results-test-mobile-2021-12-28--18-51.csv".
+
 These files will contain the lab metrics for each succesful test result from the URLs in your 'urls.csv' file. The metrics extarcted are:
 
 - Performance Score
