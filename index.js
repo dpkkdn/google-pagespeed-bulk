@@ -10,20 +10,29 @@ import { median } from './median-math.js';
 
 /* Variables */
 const file = 'urls.csv'; // File name for list of URLs to check
-const folder = 'results'; // Name of folder for output
+const baseFolder = 'results'; // Name of base folder for output
 const fullJson = true; // Variable for testing purposes. Extracts full API response into JSON File
 const chunkNum = 10; // Number or URLs per batch
 const numTest = 1; // Number of Lab test to run (Lighthouse)
 const device = 'mobile'; // Test viewport. 'desktop' also available
-const keepOldFiles = true; // To keep result files separate based on [device] and [date]
+const createSeparateFolders = true; // create separate folder for each [device]-[YYYY-MM-DD--HH-mm] combination
+const folder = createSeparateFolders ? `${baseFolder}/${device}-${moment().format('YYYY-MM-DD--HH-mm')}` : baseFolder; // Name of folder for output
+const keepOldFiles = false; // To keep result files separate based on [device] and [date]
 const deviceDateTimeStr = keepOldFiles ? `-${device}-${moment().format('YYYY-MM-DD--HH-mm')}` : ''; // File name suffix
 
 ////* Start of script *////
 console.time();
-// Create results folder
-existsSync(`./${folder}/`)
+// Create base results folder
+existsSync(`./${baseFolder}/`)
+  ? console.log(`${baseFolder} folder exists`)
+  : mkdir(`${baseFolder}`);
+
+// create the [device]-[YYYY-MM-DD--HH-mm] folder
+if (createSeparateFolders) {
+  existsSync(`./${folder}/`)
   ? console.log(`${folder} folder exists`)
-  : mkdir(`${folder}`);
+  : console.log('creating ', folder); mkdir(`${folder}`);
+}
 
 const getUrls = async () => {
   const list = await csv().fromFile(file);
