@@ -28,7 +28,7 @@ Script to extract Google PageSpeed API Data from multiple URLs. The script allow
 
 4. Get a Google API Key. You can do it from your [GCP console](https://console.cloud.google.com/apis/credentials) or from [from Google's documentation](https://developers.google.com/speed/docs/insights/v5/get-started)
 5. Add your key to “api-request.js” file.
-6. Add URLs into the 'urls.csv' file but keep the "url" header.
+6. Add URLs into the 'urls.csv' file but keep the "url" header. Enclose the url in double quotes if they have more than 1 query parameter or if any parameter has multiple comma separated values.
 7. You can change the number of tests per URL you'd like to perform. Change the variable `numTest` in Line 16 to your desired number of tests. Maximum recommended 5.
    ```javascript
    // Example tu run 3 lab tests
