@@ -3,7 +3,7 @@ import { mkdir, writeFile } from 'fs/promises';
 import { existsSync } from 'fs';
 import csv from 'csvtojson';
 import { parse } from 'json2csv';
-import { apiRequest } from './api-request.js';
+import { apiRequest, uniquePsiDummyString } from './api-request.js';
 import { chunkArray } from './chunks.js';
 import moment from 'moment';
 import { median } from './median-math.js';
@@ -38,6 +38,15 @@ const getUrls = async () => {
   const list = await csv().fromFile(file);
   return list.map(({ url }) => url);
 };
+
+const removeTempPsiIdFromUrl = (url) => {
+  if (url.includes(`?${uniquePsiDummyString}`)) {
+    return url.split(`?${uniquePsiDummyString}`)[0];
+  } else if (url.includes(`&${uniquePsiDummyString}`)) {
+    return url.split(`&${uniquePsiDummyString}`)[0];
+  }
+  return url;
+}
 
 const getSpeedData = async (testNum = 1) => {
   // Get URL List
@@ -145,7 +154,7 @@ const getSpeedData = async (testNum = 1) => {
           }
 
           // Extract Lab metrics
-          const testUrl = res.value.lighthouseResult.finalUrl;
+          const testUrl = removeTempPsiIdFromUrl(res.value.lighthouseResult.finalUrl);
           const PerformanceScore = res.value.lighthouseResult.categories.performance.score || 'no data';
           const TTFB = labAudit['server-response-time'].numericValue;
           const TTI =
